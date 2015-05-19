@@ -1,0 +1,22 @@
+{
+  "name": "squidarm",
+  "version": "0.0.0",
+  "authors": ["Vladimir Lettiev <thecrux@gmail.com>"],
+  "description": "squidarm",
+  "main": "app/main.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
+  "install": {
+    "path": "static"
+  },
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "font-awesome": "~4.3.0",
+    "jquery": "~2.1.4",
+    "datatables": "~1.10.7",
+    "metisMenu": "~2.0.0",
+    "datatables.bootstrap.css": "https://github.com/DataTables/Plugins/raw/master/integration/bootstrap/3/dataTables.bootstrap.css",
+    "datatables.bootstrap.js": "https://github.com/DataTables/Plugins/raw/master/integration/bootstrap/3/dataTables.bootstrap.js"
+  }
+}
