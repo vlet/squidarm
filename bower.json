@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "authors": ["Vladimir Lettiev <thecrux@gmail.com>"],
   "description": "squidarm",
-  "main": "app/main.js",
   "license": "MIT",
   "private": true,
   "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
