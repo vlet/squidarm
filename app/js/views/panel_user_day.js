@@ -7,7 +7,7 @@ var PanelUserDay = Backbone.View.extend({
     template: require("templates/panel_user_day.html"),
     dt: function(api_uri) {
         return {
-            ajax: api_uri,
+            ajax: api_uri + ".json",
             language: language,
             pageLength: 25,
             order: [

@@ -21,7 +21,7 @@ var PanelMonth = Backbone.View.extend({
     template: require("templates/panel_month.html"),
     dt: function(api_uri) {
         return {
-            ajax: api_uri,
+            ajax: api_uri + ".json",
             pageLength: 30,
             language: language,
             order: [
