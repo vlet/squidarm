@@ -25,8 +25,10 @@ module.exports = function(grunt) {
         },
         bower_concat: {
             all: {
-                dest: '<%= global.dist %>/js/bower.js',
-                cssDest: '<%= global.dist %>/css/bower.css',
+                dest: {
+                    js: '<%= global.dist %>/js/bower.js',
+                    css: '<%= global.dist %>/css/bower.css'
+                },
                 // exclude: ['jquery'],
                 mainFiles: {
                     'datatables': 'media/js/jquery.dataTables.js',
