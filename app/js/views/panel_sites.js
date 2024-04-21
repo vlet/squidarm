@@ -30,9 +30,9 @@ var PanelSites = Backbone.View.extend({
                 "targets": [2, 3],
                 "render": function(data, type, full, meta) {
                     if (type != 'display') return data;
-                    var k = ['', 'K', 'M', 'G'],
+                    var k = ['', 'K', 'M', 'G', 'T'],
                     i = 0;
-                    while (data > 1024 && i < 4) {
+                    while (data > 2048 && i < 4) {
                         data /= 1024;
                         i++;
                     }

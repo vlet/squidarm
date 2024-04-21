@@ -38,9 +38,9 @@ var PanelSiteUser = Backbone.View.extend({
                 "targets": [2, 3],
                 "render": function(data, type, full, meta) {
                     if (type != 'display') return data;
-                    var k = ['', 'K', 'M', 'G'],
+                    var k = ['', 'K', 'M', 'G', 'T'],
                     i = 0;
-                    while (data > 1024 && i < 4) {
+                    while (data > 2048 && i < 4) {
                         data /= 1024;
                         i++;
                     }
@@ -86,10 +86,10 @@ var PanelSiteUser = Backbone.View.extend({
                         (sum[0] + sum[1]) > 0 ? Math.round(100 * sum[0] / (sum[0] + sum[1])) + "%" : ""
                     );
                 } else {
-                    var k = ['', 'K', 'M', 'G'],
+                    var k = ['', 'K', 'M', 'G', 'T'],
                     i = 0,
                     data = sum[index];
-                    while (data > 1024 && i < 4) {
+                    while (data > 2048 && i < 4) {
                         data /= 1024;
                         i++;
                     }
