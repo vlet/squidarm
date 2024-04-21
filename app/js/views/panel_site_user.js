@@ -1,15 +1,37 @@
 var Backbone = require("backbone");
+var datalink = require("templates/datalink.html");
 var language = require("app/datatable_lang.json");
 
-var PanelUserDay = Backbone.View.extend({
+var PanelSiteUser = Backbone.View.extend({
     el: '#page-wrapper .panel',
-    events: {},
-    template: require("templates/panel_user_day.html"),
-    dt: function(api_uri) {
+    events: {
+        'click #users-month a': 'moveto',
+        'users' : 'redraw'
+    },
+    initialize: function(deps) {
+        this.app = deps.app;
+        this.router = deps.app.router;
+    },
+    moveto: function(e) {
+        e.preventDefault();
+        var href = $(e.target).attr('href');
+        console.log('Navigate ' + href);
+        this.app.router.navigate(href, {
+            trigger: true
+        });
+    },
+    template: require("templates/panel_site_user.html"),
+    redraw: function () {
+        console.log('users loaded, redraw');
+        var dt = this.$el.find('#site-user');
+        dt.DataTable().rows().invalidate().draw();
+    },
+    dt: function(api_uri, year, month) {
+        var app = this.app;
         return {
             ajax: api_uri + ".json",
-            language: language,
             pageLength: 25,
+            language: language,
             order: [
                 [2, "desc"]],
             columnDefs: [{
@@ -31,15 +53,25 @@ var PanelUserDay = Backbone.View.extend({
                     if (type != 'display') return data;
                     return (full[2] + data) > 0 ? Math.round(100 * data / (full[2] + data)) + "%" : "-";
                 }
+            },
+            {
+                "targets": 0,
+                "render": function(data, type) {
+                    if (type != 'display') return data;
+                    var link = [data, year, month ].join('/');
+                    var username = app.usernames.hasOwnProperty(data) ? app.usernames[data] : data;
+                    return datalink({
+                        link: '/user/' + link,
+                        data: username
+                    });
+                }
             }]
-
         };
     },
     render: function(init) {
         this.$el.html(this.template(init));
-        console.log("render dt");
-        var dt = this.$el.find('#user-day');
-        dt.dataTable(this.dt(init.api_uri));
+        var dt = this.$el.find('#site-user');
+        dt.dataTable(this.dt(init.api_uri, init.year, init.month));
         dt.on('xhr.dt', function ( e, settings, json ) {
             console.log( 'xhr event occurred.' );
             var sum = [0, 0, 0];
@@ -68,4 +100,4 @@ var PanelUserDay = Backbone.View.extend({
     }
 });
 
-module.exports = PanelUserDay;
+module.exports = PanelSiteUser;

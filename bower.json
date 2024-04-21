@@ -1,11 +1,19 @@
 {
   "name": "squidarm",
   "version": "0.0.0",
-  "authors": ["Vladimir Lettiev <thecrux@gmail.com>"],
+  "authors": [
+    "Vladimir Lettiev <thecrux@gmail.com>"
+  ],
   "description": "squidarm",
   "license": "MIT",
   "private": true,
-  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "install": {
     "path": "static"
   },
@@ -15,6 +23,8 @@
     "jquery": "~2.1.4",
     "datatables": "~1.10.7",
     "metisMenu": "~2.0.0",
+    "eonasdan-bootstrap-datetimepicker": "~4.17.47",
+    "moment" : "~2.18.1",
     "datatables.bootstrap.css": "https://github.com/DataTables/Plugins/raw/master/integration/bootstrap/3/dataTables.bootstrap.css",
     "datatables.bootstrap.js": "https://github.com/DataTables/Plugins/raw/master/integration/bootstrap/3/dataTables.bootstrap.js"
   }

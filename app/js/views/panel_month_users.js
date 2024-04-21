@@ -2,13 +2,15 @@ var Backbone = require("backbone");
 var datalink = require("templates/datalink.html");
 var language = require("app/datatable_lang.json");
 
-var PanelDay = Backbone.View.extend({
+var PanelMonthUsers = Backbone.View.extend({
     el: '#page-wrapper .panel',
     events: {
-        'click #users-day a': 'moveto'
+        'click #users-month a': 'moveto',
+        'users' : 'redraw'
     },
     initialize: function(deps) {
         this.app = deps.app;
+        this.router = deps.app.router;
     },
     moveto: function(e) {
         e.preventDefault();
@@ -18,9 +20,14 @@ var PanelDay = Backbone.View.extend({
             trigger: true
         });
     },
-    template: require("templates/panel_day.html"),
-    dt: function(api_uri, year, month, day) {
-        var u = this.app.usernames;
+    template: require("templates/panel_month_users.html"),
+    redraw: function () {
+        console.log('users loaded, redraw');
+        var dt = this.$el.find('#users-month');
+        dt.DataTable().rows().invalidate().draw();
+    },
+    dt: function(api_uri, year, month) {
+        var app = this.app;
         return {
             ajax: api_uri + ".json",
             pageLength: 25,
@@ -51,8 +58,8 @@ var PanelDay = Backbone.View.extend({
                 "targets": 0,
                 "render": function(data, type) {
                     if (type != 'display') return data;
-                    var link = [data, year, month, day].join('/');
-                    var username = u.hasOwnProperty(data) ? u[data] : data;
+                    var link = [data, year, month ].join('/');
+                    var username = app.usernames.hasOwnProperty(data) ? app.usernames[data] : data;
                     return datalink({
                         link: '/user/' + link,
                         data: username
@@ -63,8 +70,21 @@ var PanelDay = Backbone.View.extend({
     },
     render: function(init) {
         this.$el.html(this.template(init));
-        this.$el.find('#users-day').dataTable(this.dt(init.api_uri, init.year, init.month, init.day));
+        this.$el.find('#users-month').dataTable(this.dt(init.api_uri, init.year, init.month));
+        var r = this.router;
+        this.$el.find('#datetimepicker2').datetimepicker({
+            defaultDate: new Date(init.year, init.month-1, 1),
+            locale: 'ru',
+            format: 'YYYY MM',
+        }).on('dp.change', function(e) {
+            console.log(e.date.year());
+            console.log(e.date.month()+1);
+            r.navigate( '/users/' + e.date.year() + '/' + ( e.date.month()+1 ) , {
+                trigger: true
+            });
+        });
+
     }
 });
 
-module.exports = PanelDay;
+module.exports = PanelMonthUsers;

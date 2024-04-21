@@ -20,6 +20,22 @@ $(function() {
 
     $('#side-menu').metisMenu();
 
+    var spinner = $('.fa-spinner');
+    $(document).ajaxStart(function() {
+        spinner.removeClass('invisible');
+    });
+
+    $(document).ajaxComplete(function() {
+        spinner.addClass('invisible');
+    });
+
+    $.getJSON( "/api/usernames.json", function( data ) {
+        console.log("fetch usernames");
+        app.usernames = data.data;
+        var e = $.Event( "users" );
+        $('#page-wrapper .panel').trigger(e);
+    });
+
     $(window).bind("load resize", function() {
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
         if (width < 768) {

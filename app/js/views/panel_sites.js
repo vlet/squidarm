@@ -2,10 +2,10 @@ var Backbone = require("backbone");
 var datalink = require("templates/datalink.html");
 var language = require("app/datatable_lang.json");
 
-var PanelMonth = Backbone.View.extend({
+var PanelSites = Backbone.View.extend({
     el: '#page-wrapper .panel',
     events: {
-        'click #users-month a': 'moveto'
+        'click #sites-month a': 'moveto'
     },
     moveto: function(e) {
         e.preventDefault();
@@ -18,14 +18,14 @@ var PanelMonth = Backbone.View.extend({
     initialize: function(deps) {
         this.router = deps.app.router;
     },
-    template: require("templates/panel_month.html"),
-    dt: function(api_uri) {
+    template: require("templates/panel_sites.html"),
+    dt: function(api_uri,year,month) {
         return {
             ajax: api_uri + ".json",
-            pageLength: 30,
+            pageLength: 50,
             language: language,
             order: [
-                [0, "asc"]],
+                [2, "desc"]],
             columnDefs: [{
                 "targets": [2, 3],
                 "render": function(data, type, full, meta) {
@@ -43,9 +43,9 @@ var PanelMonth = Backbone.View.extend({
                 "targets": 0,
                 "render": function(data, type) {
                     if (type != 'display') return data;
-                    var link = data.split('-').join('/');
+                    var link = [data, year, month ].join('/');
                     return datalink({
-                        link: '/users/' + link,
+                        link: '/site/' + link,
                         data: data
                     });
                 }
@@ -64,20 +64,20 @@ var PanelMonth = Backbone.View.extend({
     render: function(init) {
         console.log(init);
         this.$el.html(this.template(init));
-        this.$el.find('#users-month').dataTable(this.dt(init.api_uri));
+        this.$el.find('#sites-month').dataTable(this.dt(init.api_uri, init.year, init.month));
         var r = this.router;
-        this.$el.find('#datetimepicker1').datetimepicker({
+        this.$el.find('#datetimepicker').datetimepicker({
             defaultDate: new Date(init.year, init.month-1, 1),
             locale: 'ru',
             format: 'YYYY MM',
         }).on('dp.change', function(e) {
             console.log(e.date.year());
             console.log(e.date.month()+1);
-            r.navigate( '/traf/' + e.date.year() + '/' + ( e.date.month()+1 ) , {
+            r.navigate( '/sites/' + e.date.year() + '/' + ( e.date.month()+1 ) , {
                 trigger: true
             });
         });
     }
 });
 
-module.exports = PanelMonth;
+module.exports = PanelSites;

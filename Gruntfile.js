@@ -29,7 +29,8 @@ module.exports = function(grunt) {
                 cssDest: '<%= global.dist %>/css/bower.css',
                 // exclude: ['jquery'],
                 mainFiles: {
-                    'datatables': 'media/js/jquery.dataTables.js'
+                    'datatables': 'media/js/jquery.dataTables.js',
+                    'moment': 'min/moment-with-locales.js'
                 },
                 dependencies: {
                     'datatables.bootstrap.js': 'datatables'
